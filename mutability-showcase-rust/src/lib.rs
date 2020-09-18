@@ -1,4 +1,4 @@
-mod generic_update;
+pub mod generic_update;
 
 pub fn update_request_handler(update_request: UpdateRequest) {
     let user = read_user(&update_request.email);
