@@ -8,6 +8,46 @@ fn update_map(user: &mut User) -> HashMap<&'static str, &mut String> {
     result
 }
 
+/// Sets Nones to the previous Some
+/// ```
+/// # use mutability_showcase_rust::generic_update::normalize_fields;
+/// let mut sparse = vec![
+///     Some("foo"),
+///     None,
+///     None,
+///     Some("bar"),
+///     Some("baz"),
+///     None,
+/// ];
+///
+/// normalize_fields(&mut sparse);
+/// assert_eq!(sparse, vec![
+///     Some("foo"),
+///     Some("foo"),
+///     Some("foo"),
+///     Some("bar"),
+///     Some("baz"),
+///     Some("baz"),
+/// ]);
+/// ```
+pub fn normalize_fields<'a, I, T>(iter: I)
+where
+    I: IntoIterator<Item = &'a mut Option<T>> + 'a,
+    T: 'a + Clone,
+{
+    let mut last_f = None;
+    for t in iter {
+        match t {
+            Some(f) => {
+                last_f = Some(f.clone());
+            }
+            None => {
+                *t = last_f.clone();
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
