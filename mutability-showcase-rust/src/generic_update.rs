@@ -64,4 +64,56 @@ mod tests {
         let mut_ptr = update_map.get_mut("name").unwrap();
         **mut_ptr = "aXeL".to_string();
     }
+
+    #[test]
+    fn fill_ranking() {
+        #[derive(Eq, PartialEq, Debug)]
+        struct LeaderboardEntry {
+            name: String,
+            ranking: Option<usize>,
+        }
+
+        let mut leaderboard = vec![
+            LeaderboardEntry {
+                name: "Woop".into(),
+                ranking: Some(1),
+            },
+            LeaderboardEntry {
+                name: "Dee".into(),
+                ranking: Some(2),
+            },
+            LeaderboardEntry {
+                name: "Doo".into(),
+                ranking: None,
+            },
+            LeaderboardEntry {
+                name: "Doodle".into(),
+                ranking: Some(3),
+            },
+        ];
+
+        fill_nones(leaderboard.iter_mut().map(|it| &mut it.ranking));
+
+        assert_eq!(
+            leaderboard,
+            vec![
+                LeaderboardEntry {
+                    name: "Woop".into(),
+                    ranking: Some(1),
+                },
+                LeaderboardEntry {
+                    name: "Dee".into(),
+                    ranking: Some(2),
+                },
+                LeaderboardEntry {
+                    name: "Doo".into(),
+                    ranking: Some(2),
+                },
+                LeaderboardEntry {
+                    name: "Doodle".into(),
+                    ranking: Some(3),
+                },
+            ]
+        );
+    }
 }
