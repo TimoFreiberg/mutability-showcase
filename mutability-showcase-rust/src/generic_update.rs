@@ -10,7 +10,7 @@ fn update_map(user: &mut User) -> HashMap<&'static str, &mut String> {
 
 /// Sets Nones to the previous Some
 /// ```
-/// # use mutability_showcase_rust::generic_update::normalize_fields;
+/// # use mutability_showcase_rust::generic_update::fill_nones;
 /// let mut sparse = vec![
 ///     Some("foo"),
 ///     None,
@@ -20,7 +20,7 @@ fn update_map(user: &mut User) -> HashMap<&'static str, &mut String> {
 ///     None,
 /// ];
 ///
-/// normalize_fields(&mut sparse);
+/// fill_nones(&mut sparse);
 /// assert_eq!(sparse, vec![
 ///     Some("foo"),
 ///     Some("foo"),
@@ -30,7 +30,7 @@ fn update_map(user: &mut User) -> HashMap<&'static str, &mut String> {
 ///     Some("baz"),
 /// ]);
 /// ```
-pub fn normalize_fields<'a, I, T>(iter: I)
+pub fn fill_nones<'a, I, T>(iter: I)
 where
     I: IntoIterator<Item = &'a mut Option<T>> + 'a,
     T: 'a + Clone,
